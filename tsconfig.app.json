@@ -3,6 +3,10 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["./*"]
+    },
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

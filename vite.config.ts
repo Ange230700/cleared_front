@@ -2,8 +2,20 @@
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
-})
+  plugins: [vue(), tailwindcss()],
+  optimizeDeps: {
+    include: ["vitest"],
+  },
+  // test: {
+  //   globals: true,
+  //   include: ["tests/**/*.test.ts"],
+  //   reporters: ["verbose"],
+  //   isolate: false,
+  //   watch: false,
+  //   environment: "jsdom",
+  // },
+});
