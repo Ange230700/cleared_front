@@ -17,7 +17,14 @@ api.interceptors.response.use(
     }
   },
   (error) => {
-    return Promise.reject(error);
+    // If error is already an Error instance, just pass it through.
+    if (error instanceof Error) {
+      return Promise.reject(error);
+    }
+    // Otherwise, wrap it.
+    return Promise.reject(
+      new Error(typeof error === "string" ? error : JSON.stringify(error)),
+    );
   },
 );
 
