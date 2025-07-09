@@ -1,4 +1,103 @@
 <!-- src/components/CollectionForm.vue -->
+
+<template>
+  <form @submit.prevent="submit">
+    <!-- Date -->
+    <PrimeFormField label="Date" class="mb-3">
+      <input
+        v-model="form.collection_date"
+        type="date"
+        class="p-inputtext"
+        required
+      />
+    </PrimeFormField>
+
+    <!-- Lieu -->
+    <PrimeFormField label="Lieu" class="mb-3">
+      <input
+        v-model="form.collection_place"
+        type="text"
+        class="p-inputtext"
+        required
+      />
+    </PrimeFormField>
+
+    <!-- Volunteers (Checkbox list) -->
+    <PrimeFormField label="Bénévoles" class="mb-3">
+      <div class="grid grid-cols-2 gap-2">
+        <label
+          v-for="vol in volunteers"
+          :key="vol.volunteer_id"
+          class="flex items-center gap-2"
+        >
+          <input
+            type="checkbox"
+            :value="vol.volunteer_id"
+            v-model="form.volunteer_ids"
+            class="accent-primary"
+          />
+          {{ vol.volunteer_name }}
+        </label>
+      </div>
+    </PrimeFormField>
+
+    <!-- Wastes (dynamic) -->
+    <PrimeFormField label="Déchets collectés" class="mb-3">
+      <div
+        v-for="(waste, idx) in form.wastes"
+        :key="idx"
+        class="mb-2 flex items-center gap-2"
+      >
+        <input
+          v-model="waste.waste_type"
+          type="text"
+          placeholder="Type de déchet"
+          class="p-inputtext"
+          required
+        />
+        <input
+          v-model.number="waste.quantity_kg"
+          type="number"
+          min="0"
+          step="0.1"
+          placeholder="Quantité (kg)"
+          class="p-inputtext"
+          required
+        />
+        <PrimeButton
+          icon="pi pi-trash"
+          severity="danger"
+          @click="removeWaste(idx)"
+          type="button"
+          v-if="form.wastes.length > 1"
+        />
+      </div>
+      <PrimeButton
+        label="Ajouter un déchet"
+        type="button"
+        @click="addWaste"
+        size="small"
+        class="mt-2"
+      />
+    </PrimeFormField>
+
+    <!-- Buttons -->
+    <div class="mt-4 flex justify-end gap-2">
+      <PrimeButton
+        :label="submitLabel || 'Enregistrer'"
+        type="submit"
+        class="mr-2"
+      />
+      <PrimeButton
+        label="Annuler"
+        severity="secondary"
+        type="button"
+        @click="$emit('cancel')"
+      />
+    </div>
+  </form>
+</template>
+
 <script setup lang="ts">
 import { reactive, watch } from "vue";
 import type { Volunteer } from "~/src/types/Volunteer";
@@ -32,15 +131,14 @@ const form = reactive<CollectionFormModel>({
   })) || [{ waste_type: "", quantity_kg: null }],
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function addWaste() {
   form.wastes.push({ waste_type: "", quantity_kg: null });
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function removeWaste(idx: number) {
   form.wastes.splice(idx, 1);
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function submit() {
   const validWastes: Waste[] = form.wastes
     .filter(
