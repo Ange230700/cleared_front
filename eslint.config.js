@@ -4,15 +4,22 @@ import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import pluginVue from "eslint-plugin-vue";
 import json from "@eslint/json";
-import markdown from "@eslint/markdown";
+// import markdown from "@eslint/markdown";
 import css from "@eslint/css";
 import { defineConfig, globalIgnores } from "eslint/config";
 
-
 export default defineConfig([
-  globalIgnores(["node_modules", "dist", "build", "coverage", ".vscode", "package-lock.json"]),
+  globalIgnores([
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    ".vscode",
+    "package-lock.json",
+  ]),
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     plugins: { js },
@@ -46,12 +53,12 @@ export default defineConfig([
     language: "json/json5",
     extends: ["json/recommended"],
   },
-  {
-    files: ["**/*.md"],
-    plugins: { markdown },
-    language: "markdown/gfm",
-    extends: ["markdown/recommended"],
-  },
+  // {
+  //   files: ["**/*.md"],
+  //   plugins: { markdown },
+  //   language: "markdown/gfm",
+  //   extends: ["markdown/recommended"],
+  // },
   {
     files: ["**/*.css"],
     plugins: { css },
@@ -59,4 +66,5 @@ export default defineConfig([
     extends: ["css/recommended"],
   },
   eslintConfigPrettier,
+  eslintPluginPrettierRecommended,
 ]);

@@ -1,7 +1,8 @@
 // src/composables/useAuth.ts
+
 import { ref } from "vue";
 import { useUserStore } from "~/src/stores/userStore";
-import axios from "axios";
+import api from "~/src/axios-instance";
 
 const isAuthenticated = ref(false);
 const bootstrapped = ref(false);
@@ -11,14 +12,21 @@ export function useAuth() {
 
   async function fetchAuth() {
     try {
-      const response = await axios.get(`/api/auth/refresh`, {
-        withCredentials: true,
-      });
-      const payload = response.data;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const userData = payload.data;
-      userStore.setUser();
-      isAuthenticated.value = true;
+      const response = await api.post(
+        `/api/auth/refresh`,
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+
+      const { user } = response.data;
+      if (user) {
+        userStore.setUser(user);
+        isAuthenticated.value = true;
+      } else {
+        throw new Error("No user returned");
+      }
     } catch {
       isAuthenticated.value = false;
       userStore.clearUser();

@@ -26,8 +26,7 @@
         </a>
       </template>
 
-      <template #end>
-      </template>
+      <template #end> </template>
     </PrimeMenubar>
   </nav>
 </template>
@@ -36,27 +35,56 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import api from "~/src/axios-instance";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useAuth } from "~/src/composables/useAuth";
-import { useUserStore } from "~/src/stores/userStore";
-import { useToast } from "primevue/usetoast";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import api from "~/src/axios-instance";
+
+import { useAuth } from "~/src/composables/useAuth";
+import { useToast } from "primevue/usetoast";
+import { useUserStore } from "~/src/stores/userStore";
+
 const toast = useToast();
 const router = useRouter();
- 
-// const { isAuthenticated, setAuthenticated, fetchAuth } = useAuth();
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const userStore = useUserStore();
+const { setAuthenticated } = useAuth();
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const handleLogout = async () => {
+  try {
+    await api.post("/api/auth/logout");
+    userStore.clearUser();
+    setAuthenticated(false);
+    toast.add({
+      severity: "info",
+      summary: "Déconnecté",
+      detail: "À bientôt !",
+    });
+    router.push("/login");
+  } catch {
+    toast.add({
+      severity: "error",
+      summary: "Erreur",
+      detail: "Erreur lors de la déconnexion",
+    });
+  }
+};
 
 const menuItems = computed(() => {
   return [
     {
-      icon: "pi pi-home",
-      label: "Home",
-      command: () => router.push("/"),
+      icon: "pi pi-user-plus",
+      label: "Sign up",
+      command: () => router.push("/register"),
+    },
+    {
+      icon: "pi pi-user",
+      label: "Sign in",
+      command: () => router.push("/login"),
+    },
+    {
+      icon: "pi pi-table",
+      label: "Collections",
+      command: () => router.push("/collections"),
     },
   ];
 });

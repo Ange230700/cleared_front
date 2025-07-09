@@ -13,7 +13,7 @@ api.interceptors.response.use(
     if (env?.status === "success") {
       return { ...response, data: env.data };
     } else {
-      return Promise.reject(new Error(env.error?.message || "Backend error."));
+      return Promise.reject(new Error(env.error?.message ?? "Backend error."));
     }
   },
   (error) => {

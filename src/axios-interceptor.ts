@@ -1,8 +1,8 @@
 // src\axios-interceptor.ts
-import api from "./axios-instance";
-import router from "./router";
+import api from "~/src/axios-instance";
+import router from "~/src/router";
 
-const REFRESH_URL = "/api/sessions/refresh/";
+const REFRESH_URL = "/api/auth/refresh/";
 
 api.interceptors.response.use(
   (r) => r,

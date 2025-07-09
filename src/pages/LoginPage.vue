@@ -1,0 +1,80 @@
+<!-- src/pages/LoginPage.vue -->
+
+<template>
+  <div class="flex min-h-screen flex-col items-center justify-center p-4">
+    <PrimeToast />
+    <div class="card w-full max-w-md p-6">
+      <h2 class="mb-4 text-2xl font-bold">Connexion</h2>
+      <PrimeForm @submit="onLogin">
+        <PrimeFormField label="Email" name="email" class="mb-3">
+          <PrimeInputText
+            v-model="email"
+            type="email"
+            required
+            autocomplete="email"
+          />
+        </PrimeFormField>
+        <PrimeFormField label="Mot de passe" name="password" class="mb-4">
+          <PrimePassword
+            v-model="password"
+            toggleMask
+            required
+            autocomplete="current-password"
+          />
+        </PrimeFormField>
+        <PrimeButton
+          label="Se connecter"
+          type="submit"
+          class="mb-2 w-full"
+          :loading="loading"
+        />
+        <div class="mt-2 flex items-center justify-between">
+          <router-link to="/register" class="text-primary underline"
+            >Créer un compte</router-link
+          >
+        </div>
+      </PrimeForm>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import api from "~/src/axios-instance";
+import { useToast } from "primevue/usetoast";
+import { useUserStore } from "~/src/stores/userStore";
+
+const email = ref("");
+const password = ref("");
+const loading = ref(false);
+const toast = useToast();
+const router = useRouter();
+const userStore = useUserStore();
+
+async function onLogin() {
+  loading.value = true;
+  try {
+    const { data } = await api.post("/api/auth/login", {
+      volunteer_email: email.value,
+      password: password.value,
+    });
+    userStore.setUser(data.user);
+    toast.add({
+      severity: "success",
+      summary: "Bienvenue!",
+      detail: `Hello ${data.user.volunteer_name}`,
+    });
+    router.push("/home");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    toast.add({
+      severity: "error",
+      summary: "Erreur",
+      detail: e?.response?.data?.error || "Connexion échouée",
+    });
+  } finally {
+    loading.value = false;
+  }
+}
+</script>
