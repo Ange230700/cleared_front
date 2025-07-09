@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 import api from "~/src/axios-instance";
 import { useToast } from "primevue/usetoast";
 
@@ -76,12 +77,16 @@ async function onRegister() {
       detail: "Veuillez vous connecter",
     });
     router.push("/login");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
+  } catch (e: unknown) {
+    let msg = "Inscription échouée";
+    // Optionally, handle Axios errors specifically
+    if (axios.isAxiosError(e)) {
+      msg = (e.response?.data?.error as string) || msg;
+    }
     toast.add({
       severity: "error",
       summary: "Erreur",
-      detail: e?.response?.data?.error || "Inscription échouée",
+      detail: msg,
     });
   } finally {
     loading.value = false;
