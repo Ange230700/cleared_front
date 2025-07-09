@@ -2,6 +2,7 @@
 
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import axios from "axios";
 import type {
   Volunteer,
   VolunteerPayload,
@@ -20,9 +21,13 @@ export const useVolunteerStore = defineStore("volunteer", () => {
     try {
       const res = await api.get<Volunteer[]>("/api/volunteers");
       volunteers.value = res.data;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur de chargement des bénévoles";
+    } catch (err: unknown) {
+      let msg = "Erreur de chargement des bénévoles";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
     } finally {
       loading.value = false;
     }
@@ -35,9 +40,13 @@ export const useVolunteerStore = defineStore("volunteer", () => {
       const res = await api.post<Volunteer>("/api/volunteers", payload);
       volunteers.value.push(res.data);
       return res.data;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur lors de la création du bénévole";
+    } catch (err: unknown) {
+      let msg = "Erreur lors de la création du bénévole";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
       throw err;
     } finally {
       loading.value = false;
@@ -52,9 +61,13 @@ export const useVolunteerStore = defineStore("volunteer", () => {
       const idx = volunteers.value.findIndex((v) => v.volunteer_id === id);
       if (idx !== -1) volunteers.value[idx] = res.data;
       return res.data;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur lors de la modification";
+    } catch (err: unknown) {
+      let msg = "Erreur lors de la modification";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
       throw err;
     } finally {
       loading.value = false;
@@ -67,9 +80,13 @@ export const useVolunteerStore = defineStore("volunteer", () => {
     try {
       await api.delete(`/api/volunteers/${id}`);
       volunteers.value = volunteers.value.filter((v) => v.volunteer_id !== id);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur lors de la suppression";
+    } catch (err: unknown) {
+      let msg = "Erreur lors de la suppression";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
       throw err;
     } finally {
       loading.value = false;
