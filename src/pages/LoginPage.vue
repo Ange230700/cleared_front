@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 import api from "~/src/axios-instance";
 import { useToast } from "primevue/usetoast";
 import { useUserStore } from "~/src/stores/userStore";
@@ -66,12 +67,16 @@ async function onLogin() {
       detail: `Hello ${data.user.volunteer_name}`,
     });
     router.push("/home");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
+  } catch (e: unknown) {
+    let msg = "Connexion échouée";
+    // Optionally, handle Axios errors specifically
+    if (axios.isAxiosError(e)) {
+      msg = (e.response?.data?.error as string) || msg;
+    }
     toast.add({
       severity: "error",
       summary: "Erreur",
-      detail: e?.response?.data?.error || "Connexion échouée",
+      detail: msg,
     });
   } finally {
     loading.value = false;
