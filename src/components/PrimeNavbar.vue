@@ -32,8 +32,7 @@
 </template>
 
 <script setup lang="ts">
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 import api from "~/src/axios-instance";
@@ -48,7 +47,6 @@ const router = useRouter();
 const userStore = useUserStore();
 const { setAuthenticated } = useAuth();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const handleLogout = async () => {
   try {
     await api.post("/api/auth/logout");
@@ -70,22 +68,35 @@ const handleLogout = async () => {
 };
 
 const menuItems = computed(() => {
-  return [
-    {
-      icon: "pi pi-user-plus",
-      label: "Sign up",
-      command: () => router.push("/register"),
-    },
-    {
-      icon: "pi pi-user",
-      label: "Sign in",
-      command: () => router.push("/login"),
-    },
+  const items = [
     {
       icon: "pi pi-table",
       label: "Collections",
       command: () => router.push("/collections"),
     },
   ];
+  if (!userStore.user) {
+    // Not logged in: show sign in/up
+    items.unshift(
+      {
+        icon: "pi pi-user-plus",
+        label: "Sign up",
+        command: () => router.push("/register"),
+      },
+      {
+        icon: "pi pi-user",
+        label: "Sign in",
+        command: () => router.push("/login"),
+      },
+    );
+  } else {
+    // Logged in: show logout
+    items.push({
+      icon: "pi pi-sign-out",
+      label: "Déconnexion",
+      command: handleLogout,
+    });
+  }
+  return items;
 });
 </script>
