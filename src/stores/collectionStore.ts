@@ -2,6 +2,7 @@
 
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import axios from "axios";
 import type { Collection } from "~/src/types/Collection";
 import api from "~/src/axios-instance";
 
@@ -17,9 +18,13 @@ export const useCollectionStore = defineStore("collection", () => {
     try {
       const res = await api.get<Collection[]>("/api/collections");
       collections.value = res.data;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur de chargement";
+    } catch (err: unknown) {
+      let msg = "Erreur de chargement";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
     } finally {
       loading.value = false;
     }
@@ -33,9 +38,13 @@ export const useCollectionStore = defineStore("collection", () => {
       const res = await api.post<Collection>("/api/collections", payload);
       collections.value.push(res.data);
       return res.data;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur lors de la création";
+    } catch (err: unknown) {
+      let msg = "Erreur lors de la création";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
       throw err;
     } finally {
       loading.value = false;
@@ -53,9 +62,13 @@ export const useCollectionStore = defineStore("collection", () => {
       const idx = collections.value.findIndex((c) => c.collection_id === id);
       if (idx !== -1) collections.value[idx] = res.data;
       return res.data;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur lors de la modification";
+    } catch (err: unknown) {
+      let msg = "Erreur lors de la modification";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
       throw err;
     } finally {
       loading.value = false;
@@ -70,9 +83,13 @@ export const useCollectionStore = defineStore("collection", () => {
       collections.value = collections.value.filter(
         (c) => c.collection_id !== id,
       );
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      error.value = err.message ?? "Erreur lors de la suppression";
+    } catch (err: unknown) {
+      let msg = "Erreur lors de la suppression";
+      // Optionally, handle Axios errors specifically
+      if (axios.isAxiosError(err)) {
+        msg = (err.response?.data?.error as string) || msg;
+      }
+      error.value = msg;
       throw err;
     } finally {
       loading.value = false;
