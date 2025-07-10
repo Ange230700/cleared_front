@@ -6,7 +6,6 @@ import { createPinia } from "pinia";
 
 import PrimeVue from "primevue/config";
 import Ripple from "primevue/ripple";
-import Aura from "@primeuix/themes/aura";
 
 import ToastService from "primevue/toastservice";
 
@@ -32,6 +31,7 @@ import router from "~/src/router";
 
 import api from "~/src/axios-instance";
 import "~/src/axios-interceptor";
+import { MyPreset } from "~/src/styles";
 
 api.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 api.defaults.withCredentials = true;
@@ -41,9 +41,9 @@ async function bootstrap() {
   const pinia = createPinia();
   app.use(PrimeVue, {
     theme: {
-      preset: Aura,
+      preset: MyPreset,
       options: {
-        darkModeSelector: "system",
+        darkModeSelector: ".prime-dark-mode",
       },
     },
   });

@@ -26,13 +26,26 @@
         </a>
       </template>
 
-      <template #end> </template>
+      <!-- Dark/Light mode toggle button on the end slot -->
+      <template #end>
+        <PrimeButton
+          :icon="colorMode === 'dark' ? 'pi pi-sun' : 'pi pi-moon'"
+          rounded
+          :aria-label="
+            colorMode === 'dark'
+              ? 'Switch to light mode'
+              : 'Switch to dark mode'
+          "
+          @click="toggleDarkMode"
+          class="ml-2"
+        />
+      </template>
     </PrimeMenubar>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 import api from "~/src/axios-instance";
@@ -46,6 +59,36 @@ const router = useRouter();
 
 const userStore = useUserStore();
 const { setAuthenticated } = useAuth();
+
+// Util: Get color mode from localStorage or fallback to system
+function getInitialColorMode(): "light" | "dark" {
+  const stored = localStorage.getItem("colorMode");
+  if (stored === "light" || stored === "dark") return stored;
+  return window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
+const colorMode = ref<"light" | "dark">(getInitialColorMode());
+
+function applyColorModeClass(mode: "light" | "dark") {
+  if (mode === "dark") {
+    document.documentElement.classList.add("prime-dark-mode");
+  } else {
+    document.documentElement.classList.remove("prime-dark-mode");
+  }
+}
+
+onMounted(() => {
+  applyColorModeClass(colorMode.value);
+});
+
+function toggleDarkMode() {
+  colorMode.value = colorMode.value === "dark" ? "light" : "dark";
+  localStorage.setItem("colorMode", colorMode.value);
+  applyColorModeClass(colorMode.value);
+}
 
 const handleLogout = async () => {
   try {
