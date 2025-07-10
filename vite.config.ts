@@ -21,7 +21,7 @@ export default defineConfig({
   // },
   resolve: {
     alias: {
-      // for "~" to point to /src
+      // for "~" to point to project root
       "~": path.resolve(__dirname, ""),
     },
   },
