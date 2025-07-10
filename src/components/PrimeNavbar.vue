@@ -54,15 +54,15 @@ const handleLogout = async () => {
     setAuthenticated(false);
     toast.add({
       severity: "info",
-      summary: "Déconnecté",
-      detail: "À bientôt !",
+      summary: "Logged out",
+      detail: "See you soon!",
     });
     router.push("/login");
   } catch {
     toast.add({
       severity: "error",
-      summary: "Erreur",
-      detail: "Erreur lors de la déconnexion",
+      summary: "Error",
+      detail: "Error during logout",
     });
   }
 };
@@ -93,7 +93,7 @@ const menuItems = computed(() => {
     // Logged in: show logout
     items.push({
       icon: "pi pi-sign-out",
-      label: "Déconnexion",
+      label: "Logout",
       command: handleLogout,
     });
   }

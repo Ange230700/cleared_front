@@ -22,7 +22,7 @@ export const useVolunteerStore = defineStore("volunteer", () => {
       const res = await api.get<Volunteer[]>("/api/volunteers");
       volunteers.value = res.data;
     } catch (err: unknown) {
-      let msg = "Erreur de chargement des bénévoles";
+      let msg = "Error loading volunteers";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
@@ -41,7 +41,7 @@ export const useVolunteerStore = defineStore("volunteer", () => {
       volunteers.value.push(res.data);
       return res.data;
     } catch (err: unknown) {
-      let msg = "Erreur lors de la création du bénévole";
+      let msg = "Error creating volunteer";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
@@ -62,7 +62,7 @@ export const useVolunteerStore = defineStore("volunteer", () => {
       if (idx !== -1) volunteers.value[idx] = res.data;
       return res.data;
     } catch (err: unknown) {
-      let msg = "Erreur lors de la modification";
+      let msg = "Error updating volunteer";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
@@ -81,7 +81,7 @@ export const useVolunteerStore = defineStore("volunteer", () => {
       await api.delete(`/api/volunteers/${id}`);
       volunteers.value = volunteers.value.filter((v) => v.volunteer_id !== id);
     } catch (err: unknown) {
-      let msg = "Erreur lors de la suppression";
+      let msg = "Error deleting volunteer";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;

@@ -14,7 +14,7 @@
             autocomplete="email"
           />
         </PrimeFormField>
-        <PrimeFormField label="Mot de passe" name="password" class="mb-4">
+        <PrimeFormField label="Password" name="password" class="mb-4">
           <PrimePassword
             v-model="password"
             toggleMask
@@ -23,14 +23,14 @@
           />
         </PrimeFormField>
         <PrimeButton
-          label="Se connecter"
+          label="Sign In"
           type="submit"
           class="mb-2 w-full"
           :loading="loading"
         />
         <div class="mt-2 flex items-center justify-between">
           <router-link to="/register" class="text-primary underline"
-            >Créer un compte</router-link
+            >Create an account</router-link
           >
         </div>
       </PrimeForm>
@@ -63,19 +63,19 @@ async function onLogin() {
     userStore.setUser(data.user);
     toast.add({
       severity: "success",
-      summary: "Bienvenue!",
+      summary: "Welcome!",
       detail: `Hello ${data.user.volunteer_name}`,
     });
     router.push("/home");
   } catch (e: unknown) {
-    let msg = "Connexion échouée";
+    let msg = "Login failed";
     // Optionally, handle Axios errors specifically
     if (axios.isAxiosError(e)) {
       msg = (e.response?.data?.error as string) || msg;
     }
     toast.add({
       severity: "error",
-      summary: "Erreur",
+      summary: "Error",
       detail: msg,
     });
   } finally {

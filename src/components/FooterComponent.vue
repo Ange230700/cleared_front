@@ -3,9 +3,9 @@
 <template>
   <footer class="bg-surface-50 py-4 dark:bg-surface-950">
     <div class="container mx-auto text-center">
-      <p>&copy; {{ currentYear }} Vacuum. Tous droits réservés.</p>
+      <p>&copy; {{ currentYear }} Vacuum. All rights reserved.</p>
       <p>
-        Voir les dépôts GitHub :
+        See the GitHub repositories:
         <a
           href="https://github.com/Ange230700/cleared_front"
           target="_blank"
@@ -13,7 +13,7 @@
         >
           https://github.com/Ange230700/cleared_front</a
         >
-        pour le front-end et
+        for the frontend and
         <a
           href="https://github.com/Ange230700/cleared_back"
           target="_blank"
@@ -21,7 +21,7 @@
         >
           https://github.com/Ange230700/cleared_back</a
         >
-        pour le back-end.
+        for the backend.
       </p>
     </div>
   </footer>
@@ -30,7 +30,3 @@
 <script setup lang="ts">
 const currentYear = new Date().getFullYear();
 </script>
-
-<style scoped>
-/* Vous pouvez ajouter ici des styles supplémentaires si besoin */
-</style>

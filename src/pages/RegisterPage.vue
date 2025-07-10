@@ -4,9 +4,9 @@
   <div class="flex min-h-screen flex-col items-center justify-center p-4">
     <PrimeToast />
     <div class="card w-full max-w-md p-6">
-      <h2 class="mb-4 text-2xl font-bold">Inscription</h2>
+      <h2 class="mb-4 text-2xl font-bold">Sign Up</h2>
       <PrimeForm @submit="onRegister">
-        <PrimeFormField label="Nom complet" name="name" class="mb-3">
+        <PrimeFormField label="Full Name" name="name" class="mb-3">
           <PrimeInputText v-model="name" required autocomplete="name" />
         </PrimeFormField>
         <PrimeFormField label="Email" name="email" class="mb-3">
@@ -17,7 +17,7 @@
             autocomplete="email"
           />
         </PrimeFormField>
-        <PrimeFormField label="Mot de passe" name="password" class="mb-3">
+        <PrimeFormField label="Password" name="password" class="mb-3">
           <PrimePassword
             v-model="password"
             toggleMask
@@ -25,21 +25,21 @@
             autocomplete="new-password"
           />
         </PrimeFormField>
-        <PrimeFormField label="Rôle" name="role" class="mb-4">
+        <PrimeFormField label="Role" name="role" class="mb-4">
           <select v-model="role" class="p-inputtext">
-            <option value="attendee">Participant</option>
+            <option value="attendee">Attendee</option>
             <option value="admin">Admin</option>
           </select>
         </PrimeFormField>
         <PrimeButton
-          label="Créer un compte"
+          label="Create account"
           type="submit"
           class="mb-2 w-full"
           :loading="loading"
         />
         <div class="mt-2 flex items-center justify-between">
           <router-link to="/login" class="text-primary underline"
-            >Déjà un compte ? Se connecter</router-link
+            >Already have an account? Sign In</router-link
           >
         </div>
       </PrimeForm>
@@ -73,19 +73,19 @@ async function onRegister() {
     });
     toast.add({
       severity: "success",
-      summary: "Compte créé",
-      detail: "Veuillez vous connecter",
+      summary: "Account created",
+      detail: "Please sign in",
     });
     router.push("/login");
   } catch (e: unknown) {
-    let msg = "Inscription échouée";
+    let msg = "Sign up failed";
     // Optionally, handle Axios errors specifically
     if (axios.isAxiosError(e)) {
       msg = (e.response?.data?.error as string) || msg;
     }
     toast.add({
       severity: "error",
-      summary: "Erreur",
+      summary: "Error",
       detail: msg,
     });
   } finally {

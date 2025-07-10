@@ -13,7 +13,7 @@
     </PrimeFormField>
 
     <!-- Lieu -->
-    <PrimeFormField label="Lieu" class="mb-3">
+    <PrimeFormField label="Place" class="mb-3">
       <input
         v-model="form.collection_place"
         type="text"
@@ -23,7 +23,7 @@
     </PrimeFormField>
 
     <!-- Volunteers (Checkbox list) -->
-    <PrimeFormField label="Bénévoles" class="mb-3">
+    <PrimeFormField label="Volunteers" class="mb-3">
       <div class="grid grid-cols-2 gap-2">
         <label
           v-for="vol in volunteers"
@@ -41,41 +41,41 @@
       </div>
     </PrimeFormField>
 
-    <!-- Wastes (dynamic) -->
-    <PrimeFormField label="Déchets collectés" class="mb-3">
+    <!-- Garbages (dynamic) -->
+    <PrimeFormField label="Collected Garbage" class="mb-3">
       <div
-        v-for="(waste, idx) in form.garbages"
+        v-for="(garbage, idx) in form.garbages"
         :key="idx"
         class="mb-2 flex items-center gap-2"
       >
         <input
-          v-model="waste.garbage_type"
+          v-model="garbage.garbage_type"
           type="text"
-          placeholder="Type de déchet"
+          placeholder="Garbage type"
           class="p-inputtext"
           required
         />
         <input
-          v-model.number="waste.quantity_kg"
+          v-model.number="garbage.quantity_kg"
           type="number"
           min="0"
           step="0.1"
-          placeholder="Quantité (kg)"
+          placeholder="Quantity (kg)"
           class="p-inputtext"
           required
         />
         <PrimeButton
           icon="pi pi-trash"
           severity="danger"
-          @click="removeWaste(idx)"
+          @click="removeGarbage(idx)"
           type="button"
           v-if="form.garbages.length > 1"
         />
       </div>
       <PrimeButton
-        label="Ajouter un déchet"
+        label="Add Garbage"
         type="button"
-        @click="addWaste"
+        @click="addGarbage"
         size="small"
         class="mt-2"
       />
@@ -83,13 +83,9 @@
 
     <!-- Buttons -->
     <div class="mt-4 flex justify-end gap-2">
+      <PrimeButton :label="submitLabel || 'Save'" type="submit" class="mr-2" />
       <PrimeButton
-        :label="submitLabel || 'Enregistrer'"
-        type="submit"
-        class="mr-2"
-      />
-      <PrimeButton
-        label="Annuler"
+        label="Cancel"
         severity="secondary"
         type="button"
         @click="$emit('cancel')"
@@ -131,11 +127,11 @@ const form = reactive<CollectionFormModel>({
   })) || [{ garbage_type: "", quantity_kg: null }],
 });
 
-function addWaste() {
+function addGarbage() {
   form.garbages.push({ garbage_type: "", quantity_kg: null });
 }
 
-function removeWaste(idx: number) {
+function removeGarbage(idx: number) {
   form.garbages.splice(idx, 1);
 }
 
