@@ -1,6 +1,6 @@
 // vite.config.ts
 
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
@@ -11,14 +11,12 @@ export default defineConfig({
   optimizeDeps: {
     include: ["vitest"],
   },
-  // test: {
-  //   globals: true,
-  //   include: ["tests/**/*.test.ts"],
-  //   reporters: ["verbose"],
-  //   isolate: false,
-  //   watch: false,
-  //   environment: "jsdom",
-  // },
+  test: {
+    globals: true,
+    include: ["tests/**/*.spec.ts"], // match your test files
+    environment: "jsdom", // for DOM testing
+    reporters: ["verbose"],
+  },
   resolve: {
     alias: {
       // for "~" to point to project root
