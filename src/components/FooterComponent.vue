@@ -3,7 +3,7 @@
 <template>
   <footer class="bg-surface-50 py-4 dark:bg-surface-950">
     <div class="container mx-auto text-center">
-      <p>&copy; {{ currentYear }} Vacuum. All rights reserved.</p>
+      <p>&copy; {{ currentYear }} V∅ID. All rights reserved.</p>
       <p>
         See the GitHub repositories:
         <a

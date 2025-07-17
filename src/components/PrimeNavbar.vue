@@ -1,7 +1,7 @@
 <!-- src\components\PrimeNavbar.vue -->
 
 <template>
-  <nav class="card px-4 pt-8">
+  <nav class="card">
     <PrimeMenubar :model="menuItems">
       <template #start>
         <p class="text-4xl font-bold">Vacuum</p>
