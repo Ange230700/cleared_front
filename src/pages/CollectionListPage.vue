@@ -75,13 +75,13 @@ watch(
 function volunteerNames(volunteers?: Volunteer[]): string {
   return volunteers && volunteers.length
     ? volunteers.map((v) => v.volunteer_name).join(", ")
-    : "-";
+    : "No volunteers";
 }
 
 function garbageInfo(garbages?: Garbage[]): string {
   return garbages && garbages.length
     ? garbages.map((g) => `${g.garbage_type}: ${g.quantity_kg}kg`).join(", ")
-    : "-";
+    : "No garbage";
 }
 
 function goAdd() {
