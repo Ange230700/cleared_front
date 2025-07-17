@@ -9,6 +9,8 @@ import type {
   VolunteerEditPayload,
 } from "~/src/types/Volunteer";
 import api from "~/src/axios-instance";
+import type { ApiResponse } from "~/src/types/ApiResponse";
+import { unwrapApiResponse } from "~/src/helpers/unwrapApiResponse";
 
 export const useVolunteerStore = defineStore("volunteer", () => {
   const volunteers = ref<Volunteer[]>([]);
@@ -19,8 +21,8 @@ export const useVolunteerStore = defineStore("volunteer", () => {
     loading.value = true;
     error.value = null;
     try {
-      const res = await api.get<Volunteer[]>("/api/volunteers");
-      volunteers.value = res.data;
+      const res = await api.get<ApiResponse<Volunteer[]>>("/api/volunteers");
+      volunteers.value = unwrapApiResponse(res.data);
     } catch (err: unknown) {
       let msg = "Error loading volunteers";
       // Optionally, handle Axios errors specifically

@@ -5,6 +5,8 @@ import { ref } from "vue";
 import axios from "axios";
 import type { Collection } from "~/src/types/Collection";
 import api from "~/src/axios-instance";
+import type { ApiResponse } from "~/src/types/ApiResponse";
+import { unwrapApiResponse } from "~/src/helpers/unwrapApiResponse";
 
 export const useCollectionStore = defineStore("collection", () => {
   const collections = ref<Collection[]>([]);
@@ -16,10 +18,10 @@ export const useCollectionStore = defineStore("collection", () => {
     loading.value = true;
     error.value = null;
     try {
-      const res = await api.get<Collection[]>("/api/collections");
-      collections.value = res.data;
+      const res = await api.get<ApiResponse<Collection[]>>("/api/collections");
+      collections.value = unwrapApiResponse(res.data);
     } catch (err: unknown) {
-      let msg = "Erreur de chargement";
+      let msg = "Error loading collections";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
@@ -39,7 +41,7 @@ export const useCollectionStore = defineStore("collection", () => {
       collections.value.push(res.data);
       return res.data;
     } catch (err: unknown) {
-      let msg = "Erreur lors de la création";
+      let msg = "Error creating collection";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
@@ -63,7 +65,7 @@ export const useCollectionStore = defineStore("collection", () => {
       if (idx !== -1) collections.value[idx] = res.data;
       return res.data;
     } catch (err: unknown) {
-      let msg = "Erreur lors de la modification";
+      let msg = "Error updating collection";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
@@ -84,7 +86,7 @@ export const useCollectionStore = defineStore("collection", () => {
         (c) => c.collection_id !== id,
       );
     } catch (err: unknown) {
-      let msg = "Erreur lors de la suppression";
+      let msg = "Error deleting collection";
       // Optionally, handle Axios errors specifically
       if (axios.isAxiosError(err)) {
         msg = (err.response?.data?.error as string) || msg;
