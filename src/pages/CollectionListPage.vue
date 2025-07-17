@@ -11,10 +11,7 @@
       @click="goAdd"
       class="mb-4"
     />
-    <PrimeDataTable
-      :value="collectionStore.collections"
-      :loading="collectionStore.loading"
-    >
+    <PrimeDataTable :value="collections" :loading="loading">
       <PrimeColumn field="collection_date" header="Date" />
       <PrimeColumn field="collection_place" header="Place" />
       <PrimeColumn header="Volunteers">
@@ -45,21 +42,21 @@
 <script setup lang="ts">
 import { onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
-import { useCollectionStore } from "~/src/stores/collectionStore";
 import { useUserStore } from "~/src/stores/userStore";
 import { useToast } from "primevue/usetoast";
 import type { Volunteer } from "~/src/types/Volunteer";
 import type { Garbage } from "~/src/types/Garbage";
+import { useCollection } from "~/src/composables/useCollection";
 
 const router = useRouter();
-const collectionStore = useCollectionStore();
 const userStore = useUserStore();
 const toast = useToast();
+const { collections, loading, error, fetchCollections } = useCollection();
 
-onMounted(collectionStore.fetchCollections);
+onMounted(fetchCollections);
 
 watch(
-  () => collectionStore.error,
+  () => error,
   (newError) => {
     if (newError) {
       toast.add({
