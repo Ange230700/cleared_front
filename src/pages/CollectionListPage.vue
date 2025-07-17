@@ -17,6 +17,17 @@
     >
       <PrimeColumn field="collection_date" header="Date" />
       <PrimeColumn field="collection_place" header="Place" />
+      <PrimeColumn header="Volunteers">
+        <template #body="{ data }">
+          {{ volunteerNames(data.volunteers) }}
+        </template>
+      </PrimeColumn>
+      <PrimeColumn header="Garbage Collected">
+        <template #body="{ data }">
+          {{ garbageInfo(data.garbages) }}
+        </template>
+      </PrimeColumn>
+
       <PrimeColumn v-if="userStore.role === 'admin'" header="Actions">
         <template #body="{ data }">
           <PrimeButton
@@ -37,6 +48,8 @@ import { useRouter } from "vue-router";
 import { useCollectionStore } from "~/src/stores/collectionStore";
 import { useUserStore } from "~/src/stores/userStore";
 import { useToast } from "primevue/usetoast";
+import type { Volunteer } from "~/src/types/Volunteer";
+import type { Garbage } from "~/src/types/Garbage";
 
 const router = useRouter();
 const collectionStore = useCollectionStore();
@@ -58,6 +71,18 @@ watch(
     }
   },
 );
+
+function volunteerNames(volunteers?: Volunteer[]): string {
+  return volunteers && volunteers.length
+    ? volunteers.map((v) => v.volunteer_name).join(", ")
+    : "-";
+}
+
+function garbageInfo(garbages?: Garbage[]): string {
+  return garbages && garbages.length
+    ? garbages.map((g) => `${g.garbage_type}: ${g.quantity_kg}kg`).join(", ")
+    : "-";
+}
 
 function goAdd() {
   router.push("/collections/add");
