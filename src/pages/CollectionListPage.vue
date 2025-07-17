@@ -5,6 +5,7 @@
     <PrimeToast />
     <h1 class="mb-4 text-2xl font-bold">Collections</h1>
     <PrimeButton
+      v-if="userStore.role === 'admin'"
       label="Add Collection"
       icon="pi pi-plus"
       @click="goAdd"
