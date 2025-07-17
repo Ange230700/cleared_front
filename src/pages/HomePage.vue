@@ -14,20 +14,6 @@
       <p class="mb-2">
         To access features, please sign in or create an account.
       </p>
-      <div class="mt-4 flex gap-4">
-        <router-link
-          to="/login"
-          class="hover:bg-primary-dark rounded bg-primary px-4 py-2 transition"
-        >
-          Sign In
-        </router-link>
-        <router-link
-          to="/register"
-          class="rounded border border-primary px-4 py-2 text-primary transition hover:bg-primary"
-        >
-          Create Account
-        </router-link>
-      </div>
     </template>
   </div>
 </template>
