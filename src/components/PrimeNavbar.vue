@@ -4,7 +4,12 @@
   <nav class="card">
     <PrimeMenubar :model="menuItems">
       <template #start>
-        <p class="text-4xl font-bold">Vacuum</p>
+        <PrimeButton
+          label="Vacuum"
+          variant="link"
+          size="large"
+          @click="router.push('/')"
+        />
       </template>
 
       <template #item="{ item, props, hasSubmenu, root }">
@@ -143,3 +148,9 @@ const menuItems = computed(() => {
   return items;
 });
 </script>
+
+<style scoped>
+.p-button {
+  font-size: calc(var(--p-button-lg-font-size) * 2);
+}
+</style>
