@@ -95,7 +95,7 @@ function toggleDarkMode() {
   applyColorModeClass(colorMode.value);
 }
 
-const handleLogout = async () => {
+const handleLogout = async (redirect = true) => {
   try {
     await api.post("/api/auth/logout");
     userStore.clearUser();
@@ -106,7 +106,7 @@ const handleLogout = async () => {
       detail: "See you soon!",
       life: 4000,
     });
-    router.push("/login");
+    if (redirect) router.push("/login");
   } catch {
     toast.add({
       severity: "error",
@@ -139,10 +139,7 @@ const menuItems = computed(() => {
       {
         icon: "pi pi-sign-out",
         label: "Logout",
-        command: () => {
-          handleLogout();
-          router.push("/login");
-        },
+        command: handleLogout,
       },
       {
         icon: "pi pi-table",
