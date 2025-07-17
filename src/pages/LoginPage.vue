@@ -65,6 +65,7 @@ async function onLogin() {
       severity: "success",
       summary: "Welcome!",
       detail: `Hello ${data.user.volunteer_name}`,
+      life: 4000,
     });
     router.push("/home");
   } catch (e: unknown) {
@@ -77,6 +78,7 @@ async function onLogin() {
       severity: "error",
       summary: "Error",
       detail: msg,
+      life: 4000,
     });
   } finally {
     loading.value = false;

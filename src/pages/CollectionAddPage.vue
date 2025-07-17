@@ -33,6 +33,7 @@ async function handleSubmit(data: CollectionPayload) {
       severity: "success",
       summary: "Collection added",
       detail: "The collection has been successfully created.",
+      life: 4000,
     });
     router.push("/collections");
   } catch (err: unknown) {
@@ -45,6 +46,7 @@ async function handleSubmit(data: CollectionPayload) {
       severity: "error",
       summary: "Error",
       detail: collectionStore.error || msg,
+      life: 4000,
     });
   }
 }

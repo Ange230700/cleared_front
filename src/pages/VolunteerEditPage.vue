@@ -38,11 +38,20 @@ async function handleSubmit(data: VolunteerEditPayload) {
   if (!volunteer.value) return;
   try {
     await volunteerStore.updateVolunteer(volunteer.value.volunteer_id, data);
-    toast.add({ severity: "success", summary: "Volunteer updated" });
+    toast.add({
+      life: 4000,
+      severity: "success",
+      summary: "Volunteer updated",
+    });
     router.push("/volunteers");
   } catch {
     const errorMsg = volunteerStore.error || "Failed to update volunteer.";
-    toast.add({ severity: "error", summary: "Error", detail: errorMsg });
+    toast.add({
+      life: 4000,
+      severity: "error",
+      summary: "Error",
+      detail: errorMsg,
+    });
   }
 }
 

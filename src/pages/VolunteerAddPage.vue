@@ -22,11 +22,16 @@ const volunteerStore = useVolunteerStore();
 async function handleSubmit(data: VolunteerPayload) {
   try {
     await volunteerStore.createVolunteer(data);
-    toast.add({ severity: "success", summary: "Volunteer added" });
+    toast.add({ life: 4000, severity: "success", summary: "Volunteer added" });
     router.push("/volunteers");
   } catch {
     const errorMsg = volunteerStore.error || "Failed to add volunteer.";
-    toast.add({ severity: "error", summary: "Error", detail: errorMsg });
+    toast.add({
+      life: 4000,
+      severity: "error",
+      summary: "Error",
+      detail: errorMsg,
+    });
   }
 }
 

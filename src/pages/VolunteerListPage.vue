@@ -64,6 +64,7 @@ async function deleteVolunteerFn(id: number) {
       toast.add({
         severity: "success",
         summary: "Volunteer deleted",
+        life: 4000,
       });
     } catch {
       const errorMsg = volunteerStore.error || "Failed to delete volunteer.";
@@ -71,6 +72,7 @@ async function deleteVolunteerFn(id: number) {
         severity: "error",
         summary: "Error",
         detail: errorMsg,
+        life: 4000,
       });
     }
   }

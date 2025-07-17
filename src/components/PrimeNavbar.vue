@@ -104,6 +104,7 @@ const handleLogout = async () => {
       severity: "info",
       summary: "Logged out",
       detail: "See you soon!",
+      life: 4000,
     });
     router.push("/login");
   } catch {
@@ -111,6 +112,7 @@ const handleLogout = async () => {
       severity: "error",
       summary: "Error",
       detail: "Error during logout",
+      life: 4000,
     });
   }
 };

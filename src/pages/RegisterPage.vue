@@ -75,6 +75,7 @@ async function onRegister() {
       severity: "success",
       summary: "Account created",
       detail: "Please sign in",
+      life: 4000,
     });
     router.push("/login");
   } catch (e: unknown) {
@@ -87,6 +88,7 @@ async function onRegister() {
       severity: "error",
       summary: "Error",
       detail: msg,
+      life: 4000,
     });
   } finally {
     loading.value = false;

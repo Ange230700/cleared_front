@@ -45,11 +45,20 @@ async function handleSubmit(data: CollectionPayload) {
       collection.value.collection_id,
       data,
     );
-    toast.add({ severity: "success", summary: "Collection updated" });
+    toast.add({
+      life: 4000,
+      severity: "success",
+      summary: "Collection updated",
+    });
     router.push("/collections");
   } catch {
     const errorMsg = collectionStore.error || "Failed to update collection.";
-    toast.add({ severity: "error", summary: "Error", detail: errorMsg });
+    toast.add({
+      life: 4000,
+      severity: "error",
+      summary: "Error",
+      detail: errorMsg,
+    });
   }
 }
 
