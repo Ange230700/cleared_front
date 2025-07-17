@@ -16,7 +16,7 @@
     >
       <PrimeColumn field="collection_date" header="Date" />
       <PrimeColumn field="collection_place" header="Place" />
-      <PrimeColumn header="Actions">
+      <PrimeColumn v-if="userStore.role === 'admin'" header="Actions">
         <template #body="{ data }">
           <PrimeButton
             icon="pi pi-pencil"
@@ -34,10 +34,12 @@
 import { onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useCollectionStore } from "~/src/stores/collectionStore";
+import { useUserStore } from "~/src/stores/userStore";
 import { useToast } from "primevue/usetoast";
 
 const router = useRouter();
 const collectionStore = useCollectionStore();
+const userStore = useUserStore();
 const toast = useToast();
 
 onMounted(collectionStore.fetchCollections);
