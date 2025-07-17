@@ -118,13 +118,7 @@ const handleLogout = async () => {
 };
 
 const menuItems = computed(() => {
-  const items = [
-    {
-      icon: "pi pi-table",
-      label: "Collections",
-      command: () => router.push("/collections"),
-    },
-  ];
+  const items = [];
   if (!userStore.user) {
     // Not logged in: show sign in/up
     items.unshift(
@@ -141,11 +135,21 @@ const menuItems = computed(() => {
     );
   } else {
     // Logged in: show logout
-    items.push({
-      icon: "pi pi-sign-out",
-      label: "Logout",
-      command: handleLogout,
-    });
+    items.push(
+      {
+        icon: "pi pi-sign-out",
+        label: "Logout",
+        command: () => {
+          handleLogout();
+          router.push("/login");
+        },
+      },
+      {
+        icon: "pi pi-table",
+        label: "Collections",
+        command: () => router.push("/collections"),
+      },
+    );
   }
   return items;
 });
