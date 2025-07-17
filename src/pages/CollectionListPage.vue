@@ -1,7 +1,8 @@
 <!-- src/pages/CollectionListPage.vue -->
 
 <template>
-  <div class="container mx-auto p-8">
+  <div class="container mx-auto flex-1 p-8">
+    <PrimeToast />
     <h1 class="mb-4 text-2xl font-bold">Collections</h1>
     <PrimeButton
       label="Add Collection"
@@ -9,7 +10,10 @@
       @click="goAdd"
       class="mb-4"
     />
-    <PrimeDataTable :value="collections" :loading="loading">
+    <PrimeDataTable
+      :value="collectionStore.collections"
+      :loading="collectionStore.loading"
+    >
       <PrimeColumn field="collection_date" header="Date" />
       <PrimeColumn field="collection_place" header="Place" />
       <PrimeColumn header="Actions">
@@ -27,13 +31,30 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useCollectionStore } from "~/src/stores/collectionStore";
-const router = useRouter();
-const { collections, fetchCollections, loading } = useCollectionStore();
+import { useToast } from "primevue/usetoast";
 
-onMounted(fetchCollections);
+const router = useRouter();
+const collectionStore = useCollectionStore();
+const toast = useToast();
+
+onMounted(collectionStore.fetchCollections);
+
+watch(
+  () => collectionStore.error,
+  (newError) => {
+    if (newError) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: newError,
+        life: 4000,
+      });
+    }
+  },
+);
 
 function goAdd() {
   router.push("/collections/add");

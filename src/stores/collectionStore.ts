@@ -5,8 +5,6 @@ import { ref } from "vue";
 import axios from "axios";
 import type { Collection } from "~/src/types/Collection";
 import api from "~/src/axios-instance";
-import type { ApiResponse } from "~/src/types/ApiResponse";
-import { unwrapApiResponse } from "~/src/helpers/unwrapApiResponse";
 
 export const useCollectionStore = defineStore("collection", () => {
   const collections = ref<Collection[]>([]);
@@ -18,8 +16,8 @@ export const useCollectionStore = defineStore("collection", () => {
     loading.value = true;
     error.value = null;
     try {
-      const res = await api.get<ApiResponse<Collection[]>>("/api/collections");
-      collections.value = unwrapApiResponse(res.data);
+      const res = await api.get<Collection[]>("/api/collections");
+      collections.value = res.data;
     } catch (err: unknown) {
       let msg = "Error loading collections";
       // Optionally, handle Axios errors specifically
