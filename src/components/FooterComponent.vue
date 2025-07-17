@@ -1,7 +1,7 @@
 <!-- src\components\FooterComponent.vue -->
 
 <template>
-  <footer class="bg-surface-50 py-4 dark:bg-surface-950">
+  <footer class="bg-[var(--prime-menubar-background)] py-4">
     <div class="container mx-auto text-center">
       <p>&copy; {{ currentYear }} V∅ID. All rights reserved.</p>
       <p>
