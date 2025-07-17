@@ -77,7 +77,7 @@
             toggleMask
             required
             autocomplete="current-password"
-            class="w-full rounded-lg px-3 py-2 shadow-sm"
+            class="w-full rounded-lg py-2 shadow-sm"
             placeholder="Password"
           />
         </div>
@@ -143,3 +143,9 @@ async function onLogin() {
   }
 }
 </script>
+
+<style>
+input#pv_id_10.p-inputtext.p-component.p-password-input[type="password"] {
+  width: 100%;
+}
+</style>
