@@ -143,9 +143,3 @@ async function onLogin() {
   }
 }
 </script>
-
-<style>
-input#pv_id_10.p-inputtext.p-component.p-password-input[type="password"] {
-  width: 100%;
-}
-</style>

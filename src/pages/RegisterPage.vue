@@ -177,7 +177,7 @@ async function onRegister() {
 </script>
 
 <style>
-input#pv_id_33.p-inputtext.p-component.p-password-input[type="password"] {
+input.p-inputtext.p-component.p-password-input[type="password"] {
   width: 100%;
 }
 </style>
