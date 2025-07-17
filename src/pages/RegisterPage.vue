@@ -180,4 +180,7 @@ async function onRegister() {
 input.p-inputtext.p-component.p-password-input[type="password"] {
   width: 100%;
 }
+input.p-inputtext.p-component.p-password-input[type="text"] {
+  width: 100%;
+}
 </style>
