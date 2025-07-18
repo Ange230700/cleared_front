@@ -16,11 +16,12 @@ export default defineConfig({
     include: ["tests/**/*.spec.ts"], // match your test files
     environment: "jsdom", // for DOM testing
     reporters: ["verbose"],
+    setupFiles: ["./tests/setupTest.ts"],
   },
   resolve: {
     alias: {
       // for "~" to point to project root
-      "~": path.resolve(__dirname, ""),
+      "~": path.resolve(__dirname, "."),
     },
   },
 });
